@@ -1,0 +1,1159 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Megavalanche 10-Week Plan</title>
+<style>
+  @import url('https://fonts.googleapis.com/css2?family=Bebas+Neue&family=DM+Mono:wght@300;400;500&family=DM+Sans:wght@300;400;500&display=swap');
+
+  :root {
+    --black: #0a0a0a;
+    --white: #f0ede8;
+    --red: #e63222;
+    --orange: #f07020;
+    --yellow: #f5c842;
+    --blue: #2a6dd9;
+    --green: #2db87a;
+    --grey: #1e1e1e;
+    --mid-grey: #2e2e2e;
+    --light-grey: #888;
+  }
+
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+
+  body {
+    background: var(--black);
+    color: var(--white);
+    font-family: 'DM Sans', sans-serif;
+    font-size: 13px;
+    line-height: 1.5;
+    padding: 24px 16px 60px;
+  }
+
+  header {
+    border-bottom: 2px solid var(--red);
+    padding-bottom: 16px;
+    margin-bottom: 28px;
+  }
+
+  header h1 {
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: clamp(38px, 8vw, 72px);
+    letter-spacing: 2px;
+    line-height: 1;
+    color: var(--white);
+  }
+
+  header h1 span { color: var(--red); }
+
+  .meta {
+    font-family: 'DM Mono', monospace;
+    font-size: 11px;
+    color: var(--light-grey);
+    margin-top: 8px;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+  }
+
+  /* PHASE LEGEND */
+  .legend {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 10px;
+    margin-bottom: 28px;
+  }
+
+  .legend-item {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    font-family: 'DM Mono', monospace;
+    font-size: 10px;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+    color: var(--light-grey);
+  }
+
+  .legend-dot {
+    width: 10px;
+    height: 10px;
+    border-radius: 50%;
+    flex-shrink: 0;
+  }
+
+  /* SESSION KEY */
+  .session-key {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px;
+    margin-bottom: 32px;
+    padding: 14px;
+    background: var(--grey);
+    border-left: 3px solid var(--orange);
+  }
+
+  .key-item {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    font-family: 'DM Mono', monospace;
+    font-size: 10px;
+    color: var(--light-grey);
+  }
+
+  .key-pill {
+    padding: 2px 7px;
+    border-radius: 2px;
+    font-size: 9px;
+    font-weight: 500;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+    color: var(--black);
+  }
+
+  /* PHASE HEADER */
+  .phase-header {
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: 22px;
+    letter-spacing: 2px;
+    padding: 8px 12px;
+    margin: 32px 0 12px;
+    display: flex;
+    align-items: center;
+    gap: 12px;
+  }
+
+  .phase-header .phase-num {
+    font-size: 11px;
+    font-family: 'DM Mono', monospace;
+    padding: 3px 8px;
+    color: var(--black);
+    letter-spacing: 1px;
+  }
+
+  .phase-desc {
+    font-family: 'DM Sans', sans-serif;
+    font-size: 12px;
+    color: var(--light-grey);
+    margin-bottom: 12px;
+    padding-left: 4px;
+    font-style: italic;
+  }
+
+  /* WEEK CARD */
+  .week {
+    background: var(--grey);
+    margin-bottom: 10px;
+    border-left: 3px solid transparent;
+    overflow: hidden;
+  }
+
+  .week-header {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    padding: 10px 12px;
+    cursor: pointer;
+    user-select: none;
+    background: var(--mid-grey);
+  }
+
+  .week-num {
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: 28px;
+    line-height: 1;
+    color: var(--light-grey);
+    min-width: 44px;
+  }
+
+  .week-title {
+    flex: 1;
+  }
+
+  .week-title strong {
+    display: block;
+    font-family: 'DM Mono', monospace;
+    font-size: 11px;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    color: var(--white);
+  }
+
+  .week-title span {
+    font-size: 11px;
+    color: var(--light-grey);
+  }
+
+  .week-badge {
+    font-family: 'DM Mono', monospace;
+    font-size: 9px;
+    padding: 3px 8px;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+    border-radius: 2px;
+  }
+
+  .week-toggle {
+    color: var(--light-grey);
+    font-size: 16px;
+    transition: transform 0.2s;
+  }
+
+  .week-body {
+    display: none;
+    padding: 12px;
+  }
+
+  .week.open .week-body { display: block; }
+  .week.open .week-toggle { transform: rotate(180deg); }
+
+  /* DAY ROW */
+  .days {
+    display: grid;
+    gap: 6px;
+  }
+
+  .day {
+    display: grid;
+    grid-template-columns: 70px 1fr;
+    gap: 8px;
+    align-items: start;
+    padding: 8px 10px;
+    background: var(--black);
+  }
+
+  .day-label {
+    font-family: 'DM Mono', monospace;
+    font-size: 10px;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    color: var(--light-grey);
+    padding-top: 2px;
+  }
+
+  .day-content {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 6px;
+    align-items: flex-start;
+  }
+
+  .session {
+    display: flex;
+    flex-direction: column;
+    gap: 2px;
+    flex: 1;
+    min-width: 140px;
+  }
+
+  .session-pill {
+    display: inline-block;
+    padding: 2px 8px;
+    border-radius: 2px;
+    font-family: 'DM Mono', monospace;
+    font-size: 9px;
+    font-weight: 500;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+    color: var(--black);
+    width: fit-content;
+    margin-bottom: 2px;
+  }
+
+  .session-name {
+    font-size: 12px;
+    font-weight: 500;
+    color: var(--white);
+    line-height: 1.3;
+  }
+
+  .session-detail {
+    font-size: 11px;
+    color: var(--light-grey);
+    line-height: 1.4;
+  }
+
+  .rest-day {
+    color: #444;
+    font-size: 11px;
+    font-style: italic;
+    font-family: 'DM Mono', monospace;
+  }
+
+  /* FOCUS BOX */
+  .week-focus {
+    margin-top: 12px;
+    padding: 10px 12px;
+    background: #111;
+    border-left: 2px solid var(--orange);
+    font-size: 11px;
+    color: #aaa;
+    line-height: 1.6;
+  }
+
+  .week-focus strong {
+    color: var(--orange);
+    font-family: 'DM Mono', monospace;
+    font-size: 10px;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    display: block;
+    margin-bottom: 4px;
+  }
+
+  /* COLORS */
+  .c-sprint { background: var(--yellow); }
+  .c-threshold { background: var(--orange); }
+  .c-vo2 { background: var(--red); }
+  .c-strength { background: var(--blue); }
+  .c-endurance { background: var(--green); }
+  .c-race { background: #ff5580; }
+  .c-easy { background: #555; color: var(--white) !important; }
+  .c-taper { background: #6644aa; }
+
+  .border-sprint { border-left-color: var(--yellow); }
+  .border-threshold { border-left-color: var(--orange); }
+  .border-vo2 { border-left-color: var(--red); }
+  .border-race { border-left-color: #ff5580; }
+  .border-taper { border-left-color: #6644aa; }
+  .border-recovery { border-left-color: var(--green); }
+
+  .badge-build { background: var(--orange); color: var(--black); }
+  .badge-develop { background: var(--red); color: var(--white); }
+  .badge-sharpen { background: var(--yellow); color: var(--black); }
+  .badge-race { background: #ff5580; color: var(--white); }
+  .badge-taper { background: #6644aa; color: var(--white); }
+  .badge-recovery { background: var(--green); color: var(--black); }
+
+  .phase-build { background: var(--orange); color: var(--black); }
+  .phase-develop { background: var(--red); color: var(--white); }
+  .phase-sharpen { background: var(--yellow); color: var(--black); }
+  .phase-taper { background: #6644aa; color: var(--white); }
+
+  /* RACE CALLOUT */
+  .race-callout {
+    background: #1a0a0e;
+    border: 1px solid #ff5580;
+    padding: 8px 12px;
+    margin-bottom: 10px;
+    font-family: 'DM Mono', monospace;
+    font-size: 10px;
+    color: #ff8899;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+  }
+
+  .race-callout::before {
+    content: '⚡';
+    font-size: 14px;
+  }
+
+  footer {
+    margin-top: 40px;
+    padding-top: 16px;
+    border-top: 1px solid #222;
+    font-family: 'DM Mono', monospace;
+    font-size: 10px;
+    color: #444;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+  }
+</style>
+</head>
+<body>
+
+<header>
+  <h1>MEGA<span>VALANCHE</span><br>TRAINING PLAN</h1>
+  <div class="meta">May 1 → July 10, 2026 &nbsp;·&nbsp; 10 Weeks &nbsp;·&nbsp; 6 Days/Week &nbsp;·&nbsp; Enduro + Megavalanche</div>
+</header>
+
+<div class="legend">
+  <div class="legend-item"><div class="legend-dot" style="background:var(--yellow)"></div>Sprint</div>
+  <div class="legend-item"><div class="legend-dot" style="background:var(--orange)"></div>Threshold</div>
+  <div class="legend-item"><div class="legend-dot" style="background:var(--red)"></div>VO2 / 4×4</div>
+  <div class="legend-item"><div class="legend-dot" style="background:var(--blue)"></div>Strength</div>
+  <div class="legend-item"><div class="legend-dot" style="background:var(--green)"></div>Endurance / Z2</div>
+  <div class="legend-item"><div class="legend-dot" style="background:#ff5580"></div>Race</div>
+  <div class="legend-item"><div class="legend-dot" style="background:#6644aa"></div>Taper</div>
+</div>
+
+<div class="session-key">
+  <div class="key-item"><span class="key-pill c-sprint">Sprint</span> 6–8×10s max, full rest</div>
+  <div class="key-item"><span class="key-pill c-threshold">Thresh</span> 2×20min or 3×15min @threshold</div>
+  <div class="key-item"><span class="key-pill c-vo2">4×4</span> 4×4min VO2max, 4min rest</div>
+  <div class="key-item"><span class="key-pill c-strength">Squats</span> Weekly strength session</div>
+  <div class="key-item"><span class="key-pill c-endurance">Z2 Ride</span> Easy aerobic, outside or ebike</div>
+</div>
+
+<!-- PHASE 1 -->
+<div class="phase-header">
+  <span class="phase-num phase-build">Phase 1</span>
+  BUILD — Weeks 1–3
+</div>
+<div class="phase-desc">Establish sprint habit, build aerobic base, maintain strength. Low race stress.</div>
+
+<!-- WEEK 1 -->
+<div class="week border-threshold open" id="w1">
+  <div class="week-header" onclick="toggle('w1')">
+    <div class="week-num">W1</div>
+    <div class="week-title">
+      <strong>May 1–7</strong>
+      <span>Re-establish after race week</span>
+    </div>
+    <span class="week-badge badge-build">Build</span>
+    <span class="week-toggle">▼</span>
+  </div>
+  <div class="week-body">
+    <div class="days">
+      <div class="day">
+        <div class="day-label">Thu 1</div>
+        <div class="day-content">
+          <div class="session">
+            <span class="session-pill c-sprint">Sprint</span>
+            <span class="session-name">6×10s Sprint Session</span>
+            <span class="session-detail">Outside on slight rise. Full 3–4min recovery. Stop if power drops.</span>
+          </div>
+        </div>
+      </div>
+      <div class="day">
+        <div class="day-label">Fri 2</div>
+        <div class="day-content"><span class="rest-day">Easy / rest — legs down before weekend</span></div>
+      </div>
+      <div class="day">
+        <div class="day-label">Sat 3</div>
+        <div class="day-content">
+          <div class="session">
+            <span class="session-pill c-endurance">Ride</span>
+            <span class="session-name">3hr Ebike — Technical Descents</span>
+            <span class="session-detail">Z2 climbs, full commitment on descents. Skills focus.</span>
+          </div>
+        </div>
+      </div>
+      <div class="day">
+        <div class="day-label">Sun 4</div>
+        <div class="day-content">
+          <div class="session">
+            <span class="session-pill c-endurance">Ride</span>
+            <span class="session-name">5hr Ebike — Volume Day</span>
+            <span class="session-detail">Keep it aerobic. This is the week's biggest load.</span>
+          </div>
+        </div>
+      </div>
+      <div class="day">
+        <div class="day-label">Mon 5</div>
+        <div class="day-content"><span class="rest-day">Easy ebike or full rest</span></div>
+      </div>
+      <div class="day">
+        <div class="day-label">Tue 6</div>
+        <div class="day-content">
+          <div class="session">
+            <span class="session-pill c-strength">Squats</span>
+            <span class="session-name">Strength Session</span>
+            <span class="session-detail">Squats + accessory work. Maintain load from previous weeks.</span>
+          </div>
+        </div>
+      </div>
+      <div class="day">
+        <div class="day-label">Wed 7</div>
+        <div class="day-content">
+          <div class="session">
+            <span class="session-pill c-vo2">4×4</span>
+            <span class="session-name">4×4min VO2 Intervals</span>
+            <span class="session-detail">First proper 4×4 of the block. Turbo or outside climb. Hard but controlled.</span>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="week-focus">
+      <strong>Week Focus</strong>
+      Sprint session done (Thu), 4×4 on fresh Wednesday legs after easy Mon/Tue. Ebike weekend keeps fatigue low while banking riding time.
+    </div>
+  </div>
+</div>
+
+<!-- WEEK 2 -->
+<div class="week border-threshold" id="w2">
+  <div class="week-header" onclick="toggle('w2')">
+    <div class="week-num">W2</div>
+    <div class="week-title">
+      <strong>May 8–14</strong>
+      <span>First full build week</span>
+    </div>
+    <span class="week-badge badge-build">Build</span>
+    <span class="week-toggle">▼</span>
+  </div>
+  <div class="week-body">
+    <div class="days">
+      <div class="day">
+        <div class="day-label">Thu 8</div>
+        <div class="day-content"><span class="rest-day">Easy / active recovery from Wed 4×4</span></div>
+      </div>
+      <div class="day">
+        <div class="day-label">Fri 9</div>
+        <div class="day-content">
+          <div class="session">
+            <span class="session-pill c-threshold">Thresh</span>
+            <span class="session-name">Threshold — 2×20min</span>
+            <span class="session-detail">Sustainable hard effort. Just below where you'd need to slow down.</span>
+          </div>
+        </div>
+      </div>
+      <div class="day">
+        <div class="day-label">Sat 10</div>
+        <div class="day-content">
+          <div class="session">
+            <span class="session-pill c-endurance">Ride</span>
+            <span class="session-name">3–4hr Trail Ride</span>
+            <span class="session-detail">Start riding on power this weekend if possible. Mix of climbing and descending.</span>
+          </div>
+        </div>
+      </div>
+      <div class="day">
+        <div class="day-label">Sun 11</div>
+        <div class="day-content">
+          <div class="session">
+            <span class="session-pill c-endurance">Ride</span>
+            <span class="session-name">2–3hr Easy Ride</span>
+            <span class="session-detail">Genuinely easy. Legs will talk after Saturday.</span>
+          </div>
+        </div>
+      </div>
+      <div class="day">
+        <div class="day-label">Mon 12</div>
+        <div class="day-content"><span class="rest-day">Rest</span></div>
+      </div>
+      <div class="day">
+        <div class="day-label">Tue 13</div>
+        <div class="day-content">
+          <div class="session">
+            <span class="session-pill c-strength">Squats</span>
+            <span class="session-name">Strength Session</span>
+            <span class="session-detail">Squats. Note how legs feel after first non-ebike weekend.</span>
+          </div>
+        </div>
+      </div>
+      <div class="day">
+        <div class="day-label">Wed 14</div>
+        <div class="day-content">
+          <div class="session">
+            <span class="session-pill c-sprint">Sprint</span>
+            <span class="session-name">7×10s Sprint Session</span>
+            <span class="session-detail">One more rep than W1. Outside. Full recovery between.</span>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="week-focus">
+      <strong>Week Focus</strong>
+      Threshold on Friday when fresh, sprints mid-week. Start transitioning weekend riding off ebike to build real load.
+    </div>
+  </div>
+</div>
+
+<!-- WEEK 3 -->
+<div class="week border-threshold" id="w3">
+  <div class="week-header" onclick="toggle('w3')">
+    <div class="week-num">W3</div>
+    <div class="week-title">
+      <strong>May 15–21</strong>
+      <span>Pre-race build — final load before taper</span>
+    </div>
+    <span class="week-badge badge-build">Build</span>
+    <span class="week-toggle">▼</span>
+  </div>
+  <div class="week-body">
+    <div class="days">
+      <div class="day">
+        <div class="day-label">Thu 15</div>
+        <div class="day-content">
+          <div class="session">
+            <span class="session-pill c-vo2">4×4</span>
+            <span class="session-name">4×4min VO2 Intervals</span>
+            <span class="session-detail">Second block. Should feel more controlled than W1. Push the last interval.</span>
+          </div>
+        </div>
+      </div>
+      <div class="day">
+        <div class="day-label">Fri 16</div>
+        <div class="day-content"><span class="rest-day">Easy / rest</span></div>
+      </div>
+      <div class="day">
+        <div class="day-label">Sat 17</div>
+        <div class="day-content">
+          <div class="session">
+            <span class="session-pill c-endurance">Ride</span>
+            <span class="session-name">3–4hr Trail Ride</span>
+            <span class="session-detail">Solid effort. Include some punchy climbs — practice those Megavalanche accelerations.</span>
+          </div>
+        </div>
+      </div>
+      <div class="day">
+        <div class="day-label">Sun 18</div>
+        <div class="day-content">
+          <div class="session">
+            <span class="session-pill c-endurance">Ride</span>
+            <span class="session-name">2hr Easy Ride</span>
+            <span class="session-detail">Keep it short — race week starts soon.</span>
+          </div>
+        </div>
+      </div>
+      <div class="day">
+        <div class="day-label">Mon 19</div>
+        <div class="day-content"><span class="rest-day">Rest</span></div>
+      </div>
+      <div class="day">
+        <div class="day-label">Tue 20</div>
+        <div class="day-content">
+          <div class="session">
+            <span class="session-pill c-strength">Squats</span>
+            <span class="session-name">Strength — Moderate Load</span>
+            <span class="session-detail">Back off volume slightly — race in 10 days. Keep intensity, reduce sets.</span>
+          </div>
+        </div>
+      </div>
+      <div class="day">
+        <div class="day-label">Wed 21</div>
+        <div class="day-content">
+          <div class="session">
+            <span class="session-pill c-sprint">Sprint</span>
+            <span class="session-name">8×10s Sprints</span>
+            <span class="session-detail">Max reps for the build phase. Full quality — don't rush recoveries.</span>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="week-focus">
+      <strong>Week Focus</strong>
+      Last hard week before the May race. 4×4 early in week, sprint mid-week. Reduce Sunday volume to start arriving fresh.
+    </div>
+  </div>
+</div>
+
+<!-- PHASE 2 — RACE WEEK MAY -->
+<div class="phase-header">
+  <span class="phase-num phase-sharpen">Race Week</span>
+  MAY ENDURO — Week 4
+</div>
+<div class="phase-desc">Mini-taper into May 31st race. Timed run effort Wednesday 27th.</div>
+
+<div class="race-callout">May 31 — Enduro Race (4–6 stages) &nbsp;·&nbsp; Wed 27 — Timed Run Effort</div>
+
+<div class="week border-race" id="w4">
+  <div class="week-header" onclick="toggle('w4')">
+    <div class="week-num">W4</div>
+    <div class="week-title">
+      <strong>May 22–31</strong>
+      <span>Race week taper + execution</span>
+    </div>
+    <span class="week-badge badge-race">Race</span>
+    <span class="week-toggle">▼</span>
+  </div>
+  <div class="week-body">
+    <div class="days">
+      <div class="day">
+        <div class="day-label">Thu 22</div>
+        <div class="day-content"><span class="rest-day">Easy spin or rest</span></div>
+      </div>
+      <div class="day">
+        <div class="day-label">Fri 23</div>
+        <div class="day-content">
+          <div class="session">
+            <span class="session-pill c-sprint">Sprint</span>
+            <span class="session-name">Activation — 5×8s Sprints</span>
+            <span class="session-detail">Short, sharp, not fatiguing. Just to stay sharp and feel explosive.</span>
+          </div>
+        </div>
+      </div>
+      <div class="day">
+        <div class="day-label">Sat 24</div>
+        <div class="day-content">
+          <div class="session">
+            <span class="session-pill c-endurance">Ride</span>
+            <span class="session-name">2hr Easy — Course Recon if Possible</span>
+            <span class="session-detail">No hard efforts. Spin the legs, keep them turning.</span>
+          </div>
+        </div>
+      </div>
+      <div class="day">
+        <div class="day-label">Sun 25</div>
+        <div class="day-content"><span class="rest-day">Rest / travel</span></div>
+      </div>
+      <div class="day">
+        <div class="day-label">Mon 26</div>
+        <div class="day-content"><span class="rest-day">Easy — arrive fresh at venue</span></div>
+      </div>
+      <div class="day">
+        <div class="day-label">Tue 27</div>
+        <div class="day-content">
+          <div class="session">
+            <span class="session-pill c-race">Timed Run</span>
+            <span class="session-name">Mid-week Timed Effort</span>
+            <span class="session-detail">Race pace. Treat like qualifying — committed effort, not a training run.</span>
+          </div>
+        </div>
+      </div>
+      <div class="day">
+        <div class="day-label">Wed–Thu</div>
+        <div class="day-content"><span class="rest-day">Easy / practice laps only — legs fresh for Sunday</span></div>
+      </div>
+      <div class="day">
+        <div class="day-label">Sun 31</div>
+        <div class="day-content">
+          <div class="session">
+            <span class="session-pill c-race">Race</span>
+            <span class="session-name">Enduro Race — 4–6 Stages</span>
+            <span class="session-detail">Execute. Trust the training. Don't overcook stage 1.</span>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="week-focus">
+      <strong>Week Focus</strong>
+      Arrive fresh, stay sharp. The fitness is already there — the job this week is not to waste it.
+    </div>
+  </div>
+</div>
+
+<!-- PHASE 3 — DEVELOP -->
+<div class="phase-header">
+  <span class="phase-num phase-develop">Phase 2</span>
+  DEVELOP — Weeks 5–7
+</div>
+<div class="phase-desc">Raise the ceiling. Longer efforts, more sprint volume, introduce 20–30s range for Megavalanche mass start.</div>
+
+<!-- WEEK 5 -->
+<div class="week border-recovery" id="w5">
+  <div class="week-header" onclick="toggle('w5')">
+    <div class="week-num">W5</div>
+    <div class="week-title">
+      <strong>Jun 1–7</strong>
+      <span>Post-race recovery + reset</span>
+    </div>
+    <span class="week-badge badge-recovery">Recovery</span>
+    <span class="week-toggle">▼</span>
+  </div>
+  <div class="week-body">
+    <div class="days">
+      <div class="day">
+        <div class="day-label">Mon 1</div>
+        <div class="day-content"><span class="rest-day">Full rest — race legs</span></div>
+      </div>
+      <div class="day">
+        <div class="day-label">Tue 2</div>
+        <div class="day-content"><span class="rest-day">Easy spin only — no squats this week</span></div>
+      </div>
+      <div class="day">
+        <div class="day-label">Wed 3</div>
+        <div class="day-content">
+          <div class="session">
+            <span class="session-pill c-sprint">Sprint</span>
+            <span class="session-name">5×10s Light Sprint Session</span>
+            <span class="session-detail">Reduced volume. Just to reactivate neuromuscular system after race week.</span>
+          </div>
+        </div>
+      </div>
+      <div class="day">
+        <div class="day-label">Thu 4</div>
+        <div class="day-content"><span class="rest-day">Easy</span></div>
+      </div>
+      <div class="day">
+        <div class="day-label">Fri 5</div>
+        <div class="day-content">
+          <div class="session">
+            <span class="session-pill c-threshold">Thresh</span>
+            <span class="session-name">Threshold — 2×15min</span>
+            <span class="session-detail">Shorter than usual. Gauge how legs feel post-race.</span>
+          </div>
+        </div>
+      </div>
+      <div class="day">
+        <div class="day-label">Sat–Sun</div>
+        <div class="day-content">
+          <div class="session">
+            <span class="session-pill c-endurance">Ride</span>
+            <span class="session-name">Weekend Riding — Moderate</span>
+            <span class="session-detail">2–3hr each day. No heroics. Enjoy being back on trail.</span>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="week-focus">
+      <strong>Week Focus</strong>
+      Recovery week. Don't rush back. The May race was training stimulus — let it absorb before Phase 2 starts properly.
+    </div>
+  </div>
+</div>
+
+<!-- WEEK 6 -->
+<div class="week border-vo2" id="w6">
+  <div class="week-header" onclick="toggle('w6')">
+    <div class="week-num">W6</div>
+    <div class="week-title">
+      <strong>Jun 8–14</strong>
+      <span>Develop block begins — introduce 20–30s range</span>
+    </div>
+    <span class="week-badge badge-develop">Develop</span>
+    <span class="week-toggle">▼</span>
+  </div>
+  <div class="week-body">
+    <div class="days">
+      <div class="day">
+        <div class="day-label">Mon 9</div>
+        <div class="day-content">
+          <div class="session">
+            <span class="session-pill c-threshold">Thresh</span>
+            <span class="session-name">Threshold — 3×15min</span>
+            <span class="session-detail">Back to full threshold load. This builds the engine for the 20min qualifying effort.</span>
+          </div>
+        </div>
+      </div>
+      <div class="day">
+        <div class="day-label">Tue 10</div>
+        <div class="day-content">
+          <div class="session">
+            <span class="session-pill c-strength">Squats</span>
+            <span class="session-name">Strength Session</span>
+            <span class="session-detail">Back to normal load. Squats are important for Megavalanche descent control.</span>
+          </div>
+        </div>
+      </div>
+      <div class="day">
+        <div class="day-label">Wed 11</div>
+        <div class="day-content">
+          <div class="session">
+            <span class="session-pill c-sprint">Sprint</span>
+            <span class="session-name">Mixed Sprint Session</span>
+            <span class="session-detail">4×10s max + 4×20s hard (not all-out). The 20s targets that chaotic Megavalanche opening.</span>
+          </div>
+        </div>
+      </div>
+      <div class="day">
+        <div class="day-label">Thu 12</div>
+        <div class="day-content"><span class="rest-day">Easy / rest</span></div>
+      </div>
+      <div class="day">
+        <div class="day-label">Fri 13</div>
+        <div class="day-content">
+          <div class="session">
+            <span class="session-pill c-vo2">4×4</span>
+            <span class="session-name">4×4min VO2 Intervals</span>
+            <span class="session-detail">These are qualifying-specific. Think 20min hard effort split into chunks.</span>
+          </div>
+        </div>
+      </div>
+      <div class="day">
+        <div class="day-label">Sat–Sun</div>
+        <div class="day-content">
+          <div class="session">
+            <span class="session-pill c-endurance">Ride</span>
+            <span class="session-name">Weekend Trail Riding</span>
+            <span class="session-detail">Sat 3hr / Sun 3–4hr. Ideally include some sustained climbing — simulate Megavalanche terrain.</span>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="week-focus">
+      <strong>Week Focus</strong>
+      Introduce the 20s sprint range. This is the most Megavalanche-specific addition of the whole block. The gap between 10s and 4min is where the mass start lives.
+    </div>
+  </div>
+</div>
+
+<!-- WEEK 7 -->
+<div class="week border-vo2" id="w7">
+  <div class="week-header" onclick="toggle('w7')">
+    <div class="week-num">W7</div>
+    <div class="week-title">
+      <strong>Jun 15–21</strong>
+      <span>Peak develop week — highest intensity load</span>
+    </div>
+    <span class="week-badge badge-develop">Develop</span>
+    <span class="week-toggle">▼</span>
+  </div>
+  <div class="week-body">
+    <div class="days">
+      <div class="day">
+        <div class="day-label">Mon 16</div>
+        <div class="day-content">
+          <div class="session">
+            <span class="session-pill c-threshold">Thresh</span>
+            <span class="session-name">Threshold — 2×20min</span>
+            <span class="session-detail">Full 40min at threshold. Hardest threshold session of the block.</span>
+          </div>
+        </div>
+      </div>
+      <div class="day">
+        <div class="day-label">Tue 17</div>
+        <div class="day-content">
+          <div class="session">
+            <span class="session-pill c-strength">Squats</span>
+            <span class="session-name">Strength Session</span>
+            <span class="session-detail">Last big strength week before June race taper begins.</span>
+          </div>
+        </div>
+      </div>
+      <div class="day">
+        <div class="day-label">Wed 18</div>
+        <div class="day-content">
+          <div class="session">
+            <span class="session-pill c-sprint">Sprint</span>
+            <span class="session-name">Extended Sprint Session</span>
+            <span class="session-detail">4×10s + 4×20s + 2×30s. The 30s rep is race-start simulation. Full rest between all reps.</span>
+          </div>
+        </div>
+      </div>
+      <div class="day">
+        <div class="day-label">Thu 19</div>
+        <div class="day-content"><span class="rest-day">Easy / rest</span></div>
+      </div>
+      <div class="day">
+        <div class="day-label">Fri 20</div>
+        <div class="day-content">
+          <div class="session">
+            <span class="session-pill c-vo2">4×4</span>
+            <span class="session-name">4×4min VO2 — Push Last 2 Reps</span>
+            <span class="session-detail">Aim to negative split. Reps 3 and 4 should be your best. This is peak VO2 stimulus.</span>
+          </div>
+        </div>
+      </div>
+      <div class="day">
+        <div class="day-label">Sat–Sun</div>
+        <div class="day-content">
+          <div class="session">
+            <span class="session-pill c-endurance">Ride</span>
+            <span class="session-name">Weekend Riding</span>
+            <span class="session-detail">Moderate — you've had a heavy week. Don't bury yourself before June race.</span>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="week-focus">
+      <strong>Week Focus</strong>
+      Peak week of the block. After this everything starts tilting toward sharpening and race execution. The fitness ceiling is set here.
+    </div>
+  </div>
+</div>
+
+<!-- PHASE — JUNE RACE -->
+<div class="phase-header">
+  <span class="phase-num phase-sharpen">Race Week</span>
+  JUNE ENDURO — Week 8
+</div>
+<div class="phase-desc">Late June race. One-run format — short, sharp, maximum intensity.</div>
+
+<div class="race-callout">Late June — One-Run Enduro Race</div>
+
+<div class="week border-race" id="w8">
+  <div class="week-header" onclick="toggle('w8')">
+    <div class="week-num">W8</div>
+    <div class="week-title">
+      <strong>Jun 22–28</strong>
+      <span>Mini-taper into June race</span>
+    </div>
+    <span class="week-badge badge-race">Race</span>
+    <span class="week-toggle">▼</span>
+  </div>
+  <div class="week-body">
+    <div class="days">
+      <div class="day">
+        <div class="day-label">Mon 22</div>
+        <div class="day-content"><span class="rest-day">Rest</span></div>
+      </div>
+      <div class="day">
+        <div class="day-label">Tue 23</div>
+        <div class="day-content">
+          <div class="session">
+            <span class="session-pill c-strength">Squats</span>
+            <span class="session-name">Strength — Reduced Volume</span>
+            <span class="session-detail">Last squats before race. Cut sets by 30%, keep intensity.</span>
+          </div>
+        </div>
+      </div>
+      <div class="day">
+        <div class="day-label">Wed 24</div>
+        <div class="day-content">
+          <div class="session">
+            <span class="session-pill c-sprint">Sprint</span>
+            <span class="session-name">Activation — 5×10s</span>
+            <span class="session-detail">Sharp, not fatiguing. In and out in 30 minutes.</span>
+          </div>
+        </div>
+      </div>
+      <div class="day">
+        <div class="day-label">Thu 25</div>
+        <div class="day-content"><span class="rest-day">Easy spin</span></div>
+      </div>
+      <div class="day">
+        <div class="day-label">Fri–Sat</div>
+        <div class="day-content"><span class="rest-day">Easy / practice runs — save legs</span></div>
+      </div>
+      <div class="day">
+        <div class="day-label">Race Day</div>
+        <div class="day-content">
+          <div class="session">
+            <span class="session-pill c-race">Race</span>
+            <span class="session-name">One-Run Enduro — Full Gas</span>
+            <span class="session-detail">Single stage. This is the most Megavalanche-specific race of the block — treat it like qualifying.</span>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="week-focus">
+      <strong>Week Focus</strong>
+      This one-run race is perfect Megavalanche qualifying simulation. Treat the race start as a sprint practice — explosive off the line, settle into sustained hard effort.
+    </div>
+  </div>
+</div>
+
+<!-- PHASE 4 — SHARPEN + TAPER -->
+<div class="phase-header">
+  <span class="phase-num phase-taper">Phase 3</span>
+  SHARPEN + TAPER — Weeks 9–10
+</div>
+<div class="phase-desc">Reduce volume, keep sharpness. Arrive at Megavalanche with full tanks and peak neuromuscular readiness.</div>
+
+<!-- WEEK 9 -->
+<div class="week border-taper" id="w9">
+  <div class="week-header" onclick="toggle('w9')">
+    <div class="week-num">W9</div>
+    <div class="week-title">
+      <strong>Jun 29 – Jul 5</strong>
+      <span>Post-race recovery + final sharpening</span>
+    </div>
+    <span class="week-badge badge-taper">Sharpen</span>
+    <span class="week-toggle">▼</span>
+  </div>
+  <div class="week-body">
+    <div class="days">
+      <div class="day">
+        <div class="day-label">Mon–Tue</div>
+        <div class="day-content"><span class="rest-day">Rest / easy — recover from June race</span></div>
+      </div>
+      <div class="day">
+        <div class="day-label">Wed 1</div>
+        <div class="day-content">
+          <div class="session">
+            <span class="session-pill c-vo2">4×4</span>
+            <span class="session-name">Final 4×4 Session</span>
+            <span class="session-detail">Last VO2 stimulus. Should feel controlled — you're fit now. Don't overdo it.</span>
+          </div>
+        </div>
+      </div>
+      <div class="day">
+        <div class="day-label">Thu 2</div>
+        <div class="day-content"><span class="rest-day">Easy</span></div>
+      </div>
+      <div class="day">
+        <div class="day-label">Fri 3</div>
+        <div class="day-content">
+          <div class="session">
+            <span class="session-pill c-strength">Squats</span>
+            <span class="session-name">Strength — Light</span>
+            <span class="session-detail">Last squats. 2 sets only. Maintain, don't stress.</span>
+          </div>
+        </div>
+      </div>
+      <div class="day">
+        <div class="day-label">Sat 4</div>
+        <div class="day-content">
+          <div class="session">
+            <span class="session-pill c-sprint">Sprint</span>
+            <span class="session-name">Sprint Session + Race Start Sim</span>
+            <span class="session-detail">4×10s + 1×3min hard effort with sprint start. Simulates Megavalanche gun to settled pace.</span>
+          </div>
+        </div>
+      </div>
+      <div class="day">
+        <div class="day-label">Sun 5</div>
+        <div class="day-content">
+          <div class="session">
+            <span class="session-pill c-endurance">Ride</span>
+            <span class="session-name">2hr Easy Ride</span>
+            <span class="session-detail">Enjoyable. No data watching.</span>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="week-focus">
+      <strong>Week Focus</strong>
+      Final real training week. The race start simulation on Saturday is the most specific thing you can do for Megavalanche — explosive start, hold hard for 3 minutes, practice the transition.
+    </div>
+  </div>
+</div>
+
+<!-- WEEK 10 -->
+<div class="week border-taper" id="w10">
+  <div class="week-header" onclick="toggle('w10')">
+    <div class="week-num">W10</div>
+    <div class="week-title">
+      <strong>Jul 6–10</strong>
+      <span>Race week — Megavalanche</span>
+    </div>
+    <span class="week-badge badge-taper">Taper</span>
+    <span class="week-toggle">▼</span>
+  </div>
+  <div class="week-body">
+    <div class="days">
+      <div class="day">
+        <div class="day-label">Mon 6</div>
+        <div class="day-content"><span class="rest-day">Easy spin or rest — travel day</span></div>
+      </div>
+      <div class="day">
+        <div class="day-label">Tue 7</div>
+        <div class="day-content">
+          <div class="session">
+            <span class="session-pill c-sprint">Sprint</span>
+            <span class="session-name">Activation — 4×8s</span>
+            <span class="session-detail">Tiny dose. Just to feel sharp and explosive. Done in 20 minutes.</span>
+          </div>
+        </div>
+      </div>
+      <div class="day">
+        <div class="day-label">Wed 8</div>
+        <div class="day-content"><span class="rest-day">Easy / course inspection on snow if possible</span></div>
+      </div>
+      <div class="day">
+        <div class="day-label">Thu 9</div>
+        <div class="day-content">
+          <div class="session">
+            <span class="session-pill c-race">Qualifying</span>
+            <span class="session-name">Megavalanche Qualifying — 20min</span>
+            <span class="session-detail">Start conservatively for 2 minutes, then build. Don't blow up in the snow section.</span>
+          </div>
+        </div>
+      </div>
+      <div class="day">
+        <div class="day-label">Fri 10</div>
+        <div class="day-content">
+          <div class="session">
+            <span class="session-pill c-race">Race</span>
+            <span class="session-name">MEGAVALANCHE — ~60min</span>
+            <span class="session-detail">Sprint the start. Settle into sustained effort. Descend with everything you have.</span>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="week-focus">
+      <strong>Week Focus</strong>
+      You've done the work. This week is about sleep, food, and mental preparation. The fitness is banked — your only job now is to not leave it on the training road.
+    </div>
+  </div>
+</div>
+
+<footer>
+  Generated for Megavalanche 2026 · 10-week block · 6 days/week · Enduro + Sprint + VO2 + Strength
+</footer>
+
+<script>
+  function toggle(id) {
+    const el = document.getElementById(id);
+    el.classList.toggle('open');
+  }
+</script>
+
+</body>
+</html>
